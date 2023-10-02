@@ -103,6 +103,7 @@ require('lazy').setup({
 
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
@@ -332,6 +333,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics,
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
 -- Custom Keymaps
+vim.keymap.set("n", "<leader>.", "<cmd>TSJToggle<CR>")
 vim.keymap.set("n", "<leader>u", "<Cmd>UndotreeToggle<CR>")
 vim.keymap.set("n", "<leader>g", "<cmd>Git<CR>")
 vim.keymap.set("n", "<leader>N", "<Cmd>set rnu!<CR>")
@@ -555,9 +557,8 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+    { name = 'path' }, { name = 'luasnip' },
   },
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
