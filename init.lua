@@ -71,8 +71,11 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
+  '/mbbill/undotree',
+
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+  'nvim-tree/nvim-web-devicons',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -247,6 +250,11 @@ vim.o.mouse = 'a'
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
 -- Enable break indent
 vim.o.breakindent = true
 
@@ -337,6 +345,11 @@ vim.keymap.set("n", "<leader>.", "<cmd>TSJToggle<CR>")
 vim.keymap.set("n", "<leader>u", "<Cmd>UndotreeToggle<CR>")
 vim.keymap.set("n", "<leader>g", "<cmd>Git<CR>")
 vim.keymap.set("n", "<leader>N", "<Cmd>set rnu!<CR>")
+vim.keymap.set("n", "<c-e>", "<Cmd>NvimTreeToggle<CR>")
+vim.keymap.set("n", "]t", "<Cmd>tabnext<CR>")
+vim.keymap.set("n", "[t", "<Cmd>tabprevious<CR>")
+
+
 
 vim.keymap.set("n", "gj", "<cmd>diffget //2<CR>zz")
 vim.keymap.set("n", "gf", "<cmd>diffget //3<CR>zz")
