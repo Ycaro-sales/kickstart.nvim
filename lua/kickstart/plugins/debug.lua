@@ -45,7 +45,7 @@ return {
     dap.adapters.cppdbg = {
       id = 'cppdbg',
       type = 'executable',
-      command = '/absolute/path/to/cpptools/extension/debugAdapters/bin/OpenDebugAD7',
+      command = '/home/ycaro/.local/share/nvim/mason/bin/OpenDebugAD7',
     }
     dap.configurations.cpp = {
       {
@@ -80,9 +80,27 @@ return {
     vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
     vim.keymap.set('n', '<F3>', dap.step_out, { desc = 'Debug: Step Out' })
     vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+    vim.keymap.set('n', '<Leader>db', function() require('dap').list_breakpoints() end)
     vim.keymap.set('n', '<leader>B', function()
       dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
     end, { desc = 'Debug: Set Breakpoint' })
+
+    vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
+    vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
+
+    vim.keymap.set({ 'n', 'v' }, '<Leader>dh', function()
+      require('dap.ui.widgets').hover()
+    end)
+
+    vim.keymap.set({ 'n', 'v' }, '<Leader>db', function() require('dap.ui.widgets').preview() end)
+    vim.keymap.set('n', '<Leader>df', function()
+      local widgets = require('dap.ui.widgets')
+      widgets.centered_float(widgets.frames)
+    end)
+    vim.keymap.set('n', '<Leader>ds', function()
+      local widgets = require('dap.ui.widgets')
+      widgets.centered_float(widgets.scopes)
+    end)
 
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|

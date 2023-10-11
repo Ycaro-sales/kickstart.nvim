@@ -70,6 +70,7 @@ require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
+  'github/copilot.vim',
 
   '/mbbill/undotree',
 
@@ -107,6 +108,9 @@ require('lazy').setup({
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/nvim-cmp',
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
@@ -364,10 +368,15 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
+
+  modules = {},
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
+  sync_install = false,
+
+  ignore_install = {},
 
   highlight = { enable = true },
   indent = { enable = true },
@@ -432,6 +441,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -456,7 +466,7 @@ local on_attach = function(_, bufnr)
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[S]earch [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
   -- See `:help K` for why this keymap
@@ -487,7 +497,6 @@ end
 --  define the property 'filetypes' to the map in question.
 local servers = {
   clangd = {},
-  gopls = {},
   pyright = {},
   rust_analyzer = {},
   tsserver = {},
@@ -533,6 +542,7 @@ local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
+---@diagnostic disable-next-line: missing-fields
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -570,7 +580,10 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'path' }, { name = 'luasnip' },
+    { name = 'path' },
+    { name = 'luasnip' },
+    { name = 'buffer' },
+    { name = 'cmdline' },
   },
 }
 
