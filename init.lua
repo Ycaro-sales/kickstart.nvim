@@ -70,7 +70,8 @@ require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
-  'github/copilot.vim',
+  'tpope/vim-dispatch',
+  'folke/zen-mode.nvim',
 
   '/mbbill/undotree',
 
