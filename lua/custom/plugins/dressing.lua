@@ -166,5 +166,5 @@ return {
         get_config = nil,
       },
     })
-  e
+  end
 }
