@@ -6,11 +6,19 @@ return { -- disable netrw at the very start of your init.lua
       view = {
         width = 30,
       },
+      actions = {
+        open_file = {
+          window_picker = {
+            enable = false,
+          },
+        },
+      },
       renderer = {
         group_empty = true,
       },
-      filters = {
-        dotfiles = true,
+      filters = {},
+      git = {
+        ignore = false,
       },
     })
   end

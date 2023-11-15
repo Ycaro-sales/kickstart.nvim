@@ -72,8 +72,9 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
   'tpope/vim-dispatch',
   'folke/zen-mode.nvim',
+  'christoomey/vim-tmux-navigator', -- tmux & split window navigation
 
-  '/mbbill/undotree',
+  'mbbill/undotree',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
@@ -177,16 +178,7 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
-  },
+
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
@@ -351,8 +343,16 @@ vim.keymap.set("n", "<leader>u", "<Cmd>UndotreeToggle<CR>")
 vim.keymap.set("n", "<leader>g", "<cmd>Git<CR>")
 vim.keymap.set("n", "<leader>N", "<Cmd>set rnu!<CR>")
 vim.keymap.set("n", "<c-e>", "<Cmd>NvimTreeToggle<CR>")
-vim.keymap.set("n", "]t", "<Cmd>tabnext<CR>")
-vim.keymap.set("n", "[t", "<Cmd>tabprevious<CR>")
+
+vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })                   -- split window vertically
+vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })                    -- make split windows equal width & height
+vim.keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" })               -- close current split window
+
+vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })                     -- open new tab
+vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })              -- close current tab
+vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })                     --  go to next tab
+vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })                 --  go to previous tab
+vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
 
 
@@ -498,6 +498,7 @@ end
 --  define the property 'filetypes' to the map in question.
 local servers = {
   clangd = {},
+  pylsp = {},
   rust_analyzer = {},
   tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
@@ -555,10 +556,11 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
+    -- ['<CR>'] = cmp.mapping.confirm {
+    --   behavior = cmp.ConfirmBehavior.Replace,
+    --   select = true,
+    -- },
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
