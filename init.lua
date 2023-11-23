@@ -98,6 +98,7 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
+  "tamago324/nlsp-settings.nvim",
 
   {
     -- Autocompletion
@@ -298,19 +299,35 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
+
+local trouble = require("trouble.providers.telescope")
+
 require('telescope').setup {
   defaults = {
     mappings = {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
+        ["<c-t>"] = trouble.open_with_trouble
+      },
+      n = {
+        ["<c-t>"] = trouble.open_with_trouble
       },
     },
   },
 }
-
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+
+local nlspsettings = require("nlspsettings")
+
+nlspsettings.setup({
+  config_home = vim.fn.stdpath('config') .. '/nlsp-settings',
+  local_settings_dir = ".nlsp-settings",
+  local_settings_root_markers_fallback = { '.git' },
+  append_default_schemas = true,
+  loader = 'json'
+})
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles,
@@ -365,6 +382,13 @@ vim.keymap.set("n", "]Q", "<Cmd>clast<CR>")
 
 vim.keymap.set("n", "gf", "<cmd>diffget //2<CR>zz")
 vim.keymap.set("n", "gj", "<cmd>diffget //3<CR>zz")
+
+vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
+vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end)
+vim.keymap.set("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end)
+vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end)
+vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist") end)
+vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
 
 vim.keymap.set("n", "[<space>", "O<esc>j")
 vim.keymap.set("n", "]<space>", "o<esc>k")
