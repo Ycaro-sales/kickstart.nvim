@@ -363,8 +363,8 @@ vim.keymap.set("n", "]q", "<Cmd>cnext<CR>")
 vim.keymap.set("n", "[Q", "<Cmd>cfirst<CR>")
 vim.keymap.set("n", "]Q", "<Cmd>clast<CR>")
 
-vim.keymap.set("n", "gj", "<cmd>diffget //2<CR>zz")
-vim.keymap.set("n", "gf", "<cmd>diffget //3<CR>zz")
+vim.keymap.set("n", "gf", "<cmd>diffget //2<CR>zz")
+vim.keymap.set("n", "gj", "<cmd>diffget //3<CR>zz")
 
 vim.keymap.set("n", "[<space>", "O<esc>j")
 vim.keymap.set("n", "]<space>", "o<esc>k")
