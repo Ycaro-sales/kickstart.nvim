@@ -325,9 +325,9 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
-vim.keymap.set('n', '<leader>f', require('telescope.builtin').git_files,
+vim.keymap.set('n', '<c-p>', require('telescope.builtin').git_files,
   { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<c-p>', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>f', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string,
   { desc = '[S]earch current [W]ord' })
@@ -343,6 +343,10 @@ vim.keymap.set("n", "<leader>u", "<Cmd>UndotreeToggle<CR>")
 vim.keymap.set("n", "<leader>g", "<cmd>Git<CR>")
 vim.keymap.set("n", "<leader>N", "<Cmd>set rnu!<CR>")
 vim.keymap.set("n", "<c-e>", "<Cmd>NvimTreeToggle<CR>")
+vim.keymap.set("n", "[q", "<Cmd>cprev<CR>")
+vim.keymap.set("n", "]q", "<Cmd>cnext<CR>")
+vim.keymap.set("n", "[Q", "<Cmd>cfirst<CR>")
+vim.keymap.set("n", "]Q", "<Cmd>clast<CR>")
 
 vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })                   -- split window vertically
 vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })                    -- make split windows equal width & height
@@ -358,7 +362,6 @@ vim.keymap.set("n", "[q", "<Cmd>cprev<CR>")
 vim.keymap.set("n", "]q", "<Cmd>cnext<CR>")
 vim.keymap.set("n", "[Q", "<Cmd>cfirst<CR>")
 vim.keymap.set("n", "]Q", "<Cmd>clast<CR>")
-
 
 vim.keymap.set("n", "gj", "<cmd>diffget //2<CR>zz")
 vim.keymap.set("n", "gf", "<cmd>diffget //3<CR>zz")
@@ -604,5 +607,3 @@ cmp.setup {
     { name = 'cmdline' },
   },
 }
-
--- The line beneath this is called `modeline`. See `:help modeline`
