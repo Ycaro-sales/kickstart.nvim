@@ -347,13 +347,17 @@ vim.keymap.set("n", "<c-e>", "<Cmd>NvimTreeToggle<CR>")
 vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })                   -- split window vertically
 vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })                    -- make split windows equal width & height
 vim.keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" })               -- close current split window
-
 vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })                     -- open new tab
 vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })              -- close current tab
-vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })                     --  go to next tab
-vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })                 --  go to previous tab
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
-
+vim.keymap.set("n", "]t", "<Cmd>tabnext<CR>")
+vim.keymap.set("n", "[t", "<Cmd>tabprevious<CR>")
+vim.keymap.set("n", "]T", "<Cmd>tabfirst<CR>")
+vim.keymap.set("n", "[T", "<Cmd>tablast<CR>")
+vim.keymap.set("n", "[q", "<Cmd>cprev<CR>")
+vim.keymap.set("n", "]q", "<Cmd>cnext<CR>")
+vim.keymap.set("n", "[Q", "<Cmd>cfirst<CR>")
+vim.keymap.set("n", "]Q", "<Cmd>clast<CR>")
 
 
 vim.keymap.set("n", "gj", "<cmd>diffget //2<CR>zz")
@@ -534,6 +538,18 @@ mason_lspconfig.setup_handlers {
       filetypes = (servers[server_name] or {}).filetypes,
     }
   end
+}
+require 'lspconfig'.pylsp.setup {
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          ignore = { 'W391' },
+          maxLineLength = 100
+        }
+      }
+    }
+  }
 }
 
 -- [[ Configure nvim-cmp ]]
