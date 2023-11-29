@@ -420,7 +420,7 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'tsx', 'javascript', 'markdown', 'sql', 'typescript', 'vimdoc', 'vim' },
 
   modules = {},
 
