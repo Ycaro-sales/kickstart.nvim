@@ -550,7 +550,7 @@ local servers = {
   rust_analyzer = {},
   tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
-
+  jedi_language_server = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
