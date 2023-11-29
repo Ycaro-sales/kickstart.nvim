@@ -74,9 +74,6 @@ require('lazy').setup({
   'folke/zen-mode.nvim',
   'christoomey/vim-tmux-navigator', -- tmux & split window navigation
 
-  'tpope/vim-dadbod',
-  'kristijanhusak/vim-dadbod-ui',
-  'kristijanhusak/vim-dadbod-completion',
   'mbbill/undotree',
 
   -- Detect tabstop and shiftwidth automatically
