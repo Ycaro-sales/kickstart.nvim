@@ -1,1 +1,1 @@
-[{"url": "sqlite:/home/ycaro/personal/django/marketplace/db.sqlite3", "name": "db.sqlite3"}, {"url": "sqlite:/home/ycaro/personal/django/marketplace/db.sqlite3", "name": "marketplace"}]
+[{"url": "postgresql://postgres@localhost:5432/marketplace", "name": "marketplace"}]

@@ -568,6 +568,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
+require 'lspconfig'.jedi_language_server.setup {}
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
