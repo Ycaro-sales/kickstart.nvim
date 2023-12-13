@@ -73,6 +73,7 @@ require('lazy').setup({
   'tpope/vim-dispatch',
   'folke/zen-mode.nvim',
   'christoomey/vim-tmux-navigator', -- tmux & split window navigation
+  'raichoo/haskell-vim',
 
   'mbbill/undotree',
 
