@@ -115,6 +115,7 @@ require('lazy').setup({
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-cmdline',
       'hrsh7th/nvim-cmp',
+      'theprimeagen/harpoon',
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
@@ -408,6 +409,12 @@ vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix
 vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist") end)
 vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
 
+vim.keymap.set("n", "<leader>m", function() require("harpoon.mark").add_file() end)
+vim.keymap.set("n", "<c-m>", function() require("harpoon.ui").toggle_quick_menu() end)
+vim.keymap.set("n", "<leader>j", function() require("harpoon.ui").nav_file(1) end)
+vim.keymap.set("n", "<leader>k", function() require("harpoon.ui").nav_file(2) end)
+vim.keymap.set("n", "<leader>l", function() require("harpoon.ui").nav_file(3) end)
+
 vim.keymap.set("n", "[<space>", "O<esc>j")
 vim.keymap.set("n", "]<space>", "o<esc>k")
 
@@ -647,6 +654,6 @@ cmp.setup {
     { name = 'path' },
     { name = 'luasnip' },
     { name = 'buffer' },
-    { name = 'cmdline' },
+    -- { name = 'cmdline' },
   },
 }
