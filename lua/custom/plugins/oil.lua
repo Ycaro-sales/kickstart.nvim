@@ -58,6 +58,31 @@ return {
 				["<C-s>"] = "actions.select_vsplit",
 				["<C-h>"] = "actions.select_split",
 				["<C-t>"] = "actions.select_tab",
+				["<C-p>"] = {
+					callback = function()
+						require('telescope.builtin').git_files()
+					end,
+				},
+				["<leader>f"] = {
+					callback = function()
+						require('telescope.builtin').find_files()
+					end,
+				},
+				["<leader>sg"] = {
+					callback = function()
+						require('telescope.builtin').live_grep()
+					end,
+				},
+				["<leader>sr"] = {
+					callback = function()
+						require('telescope.builtin').resume()
+					end,
+				},
+				['<leader>sh'] = {
+					callback = function()
+						require('telescope.builtin').help_tags()
+					end,
+				},
 				["<C-c>"] = "actions.close",
 				["<C-l>"] = "actions.refresh",
 				["-"] = "actions.parent",
