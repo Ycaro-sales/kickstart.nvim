@@ -410,7 +410,8 @@ vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist"
 vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
 
 vim.keymap.set("n", "<leader>m", function() require("harpoon.mark").add_file() end)
-vim.keymap.set("n", "<c-m>", function() require("harpoon.ui").toggle_quick_menu() end)
+vim.keymap.set("n", "<c-.>", function() require("harpoon.ui").toggle_quick_menu() end)
+vim.keymap.set("n", "<leader>E", function() require("harpoon.ui").toggle_quick_menu() end)
 vim.keymap.set("n", "<leader>j", function() require("harpoon.ui").nav_file(1) end)
 vim.keymap.set("n", "<leader>k", function() require("harpoon.ui").nav_file(2) end)
 vim.keymap.set("n", "<leader>l", function() require("harpoon.ui").nav_file(3) end)
