@@ -374,47 +374,45 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics,
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
 -- Custom Keymaps
-vim.keymap.set("n", "<leader>.", "<cmd>TSJToggle<CR>")
-vim.keymap.set("n", "<leader>u", "<Cmd>UndotreeToggle<CR>")
-vim.keymap.set("n", "<leader>g", "<cmd>Git<CR>")
-vim.keymap.set("n", "<leader>N", "<Cmd>set rnu!<CR>")
-vim.keymap.set("n", "<c-e>", "<Cmd>NvimTreeToggle<CR>")
-vim.keymap.set("n", "[q", "<Cmd>cprev<CR>")
-vim.keymap.set("n", "]q", "<Cmd>cnext<CR>")
-vim.keymap.set("n", "[Q", "<Cmd>cfirst<CR>")
-vim.keymap.set("n", "]Q", "<Cmd>clast<CR>")
+vim.keymap.set("n", "<leader>.", "<cmd>TSJToggle<CR>", { desc = "TSJ toggle" })
+vim.keymap.set("n", "<leader>u", "<Cmd>UndotreeToggle<CR>", { desc = "Undotree toggle" })
+vim.keymap.set("n", "<leader>g", "<cmd>Git<CR>", { desc = "Open fugitive" })
+vim.keymap.set("n", "<leader>N", "<Cmd>set rnu!<CR>", { desc = "Toggle relative line numbers" })
 
 vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })                   -- split window vertically
-vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })                    -- make split windows equal width & height
 vim.keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" })               -- close current split window
+
 vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })                     -- open new tab
 vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })              -- close current tab
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
-vim.keymap.set("n", "]t", "<Cmd>tabnext<CR>")
-vim.keymap.set("n", "[t", "<Cmd>tabprevious<CR>")
-vim.keymap.set("n", "]T", "<Cmd>tabfirst<CR>")
-vim.keymap.set("n", "[T", "<Cmd>tablast<CR>")
-vim.keymap.set("n", "[q", "<Cmd>cprev<CR>")
-vim.keymap.set("n", "]q", "<Cmd>cnext<CR>")
-vim.keymap.set("n", "[Q", "<Cmd>cfirst<CR>")
-vim.keymap.set("n", "]Q", "<Cmd>clast<CR>")
+vim.keymap.set("n", "]t", "<Cmd>tabnext<CR>", { desc = "Next tab" })
+vim.keymap.set("n", "[t", "<Cmd>tabprevious<CR>", { desc = "Previous tab" })
+vim.keymap.set("n", "]T", "<Cmd>tabfirst<CR>", { desc = "First tab" })
+vim.keymap.set("n", "[T", "<Cmd>tablast<CR>", { desc = "Last tab" })
+vim.keymap.set("n", "[q", "<Cmd>cprev<CR>", { desc = "Quickfix previous" })
+vim.keymap.set("n", "]q", "<Cmd>cnext<CR>", { desc = "Quickfix next" })
+vim.keymap.set("n", "[Q", "<Cmd>cfirst<CR>", { desc = "Quickfix first" })
+vim.keymap.set("n", "]Q", "<Cmd>clast<CR>", { desc = "Quickfix last" })
 
-vim.keymap.set("n", "gf", "<cmd>diffget //2<CR>zz")
-vim.keymap.set("n", "gj", "<cmd>diffget //3<CR>zz")
+vim.keymap.set("n", "gf", "<cmd>diffget //2<CR>zz", { desc = "Get left side diff" })
+vim.keymap.set("n", "gj", "<cmd>diffget //3<CR>zz", { desc = "Get right side diff" })
 
-vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
-vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end)
-vim.keymap.set("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end)
-vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end)
-vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist") end)
-vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
+vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end, { desc = "Opens trouble" })
+vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end,
+  { desc = "Trouble workspace diagnostics" })
+vim.keymap.set("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end,
+  { desc = "trouble document diagnostics" })
+vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end,
+  { desc = "Trouble quickfix list" })
+vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist") end, { desc = "Trouble loclist" })
+vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = "Trouble lsp references" })
 
-vim.keymap.set("n", "<leader>m", function() require("harpoon.mark").add_file() end)
-vim.keymap.set("n", "<c-.>", function() require("harpoon.ui").toggle_quick_menu() end)
-vim.keymap.set("n", "<leader>E", function() require("harpoon.ui").toggle_quick_menu() end)
-vim.keymap.set("n", "<leader>j", function() require("harpoon.ui").nav_file(1) end)
-vim.keymap.set("n", "<leader>k", function() require("harpoon.ui").nav_file(2) end)
-vim.keymap.set("n", "<leader>l", function() require("harpoon.ui").nav_file(3) end)
+vim.keymap.set("n", "<leader>m", function() require("harpoon.mark").add_file() end, { desc = "Add harpoon mark" })
+vim.keymap.set("n", "<c-.>", function() require("harpoon.ui").toggle_quick_menu() end, { desc = "Open harpoon menu" })
+vim.keymap.set("n", "<leader>E", function() require("harpoon.ui").toggle_quick_menu() end, { desc = "Open harpoon menu" })
+vim.keymap.set("n", "<leader>j", function() require("harpoon.ui").nav_file(1) end, { desc = "Harpoon mark 1" })
+vim.keymap.set("n", "<leader>k", function() require("harpoon.ui").nav_file(2) end, { desc = "Harpoon mark 2" })
+vim.keymap.set("n", "<leader>l", function() require("harpoon.ui").nav_file(3) end, { desc = "Harpoon mark 3" })
 
 vim.keymap.set("n", "[<space>", "O<esc>j")
 vim.keymap.set("n", "]<space>", "o<esc>k")
