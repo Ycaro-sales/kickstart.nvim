@@ -604,6 +604,13 @@ require 'lspconfig'.pylsp.setup {
   }
 }
 
+require 'lspconfig'.rust_analyzer.setup {
+  -- Server-specific settings. See `:help lspconfig-setup`
+  settings = {
+    ['rust-analyzer'] = {},
+  },
+}
+
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'

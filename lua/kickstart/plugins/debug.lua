@@ -87,22 +87,23 @@ return {
       dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
     end, { desc = 'Debug: Set Breakpoint' })
 
-    vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
-    vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
+    vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end, { desc = 'Debug: Open REPL' })
+    vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end, { desc = 'Debug: Run Last' })
 
     vim.keymap.set({ 'n', 'v' }, '<Leader>dh', function()
       require('dap.ui.widgets').hover()
-    end)
+    end, { desc = 'Open UI widgets hover' })
 
-    vim.keymap.set({ 'n', 'v' }, '<Leader>db', function() require('dap.ui.widgets').preview() end)
+    vim.keymap.set({ 'n', 'v' }, '<Leader>db', function() require('dap.ui.widgets').preview() end,
+      { desc = 'Debug: Open Preview' })
     vim.keymap.set('n', '<Leader>df', function()
       local widgets = require('dap.ui.widgets')
-      widgets.centered_float(widgets.frames)
+      widgets.centered_float(widgets.frames, { desc = 'Debug: Open Frames' })
     end)
     vim.keymap.set('n', '<Leader>ds', function()
       local widgets = require('dap.ui.widgets')
       widgets.centered_float(widgets.scopes)
-    end)
+    end, { desc = 'Debug: Open Scopes' })
 
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
