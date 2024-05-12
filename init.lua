@@ -43,6 +43,15 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  pattern = "*",
+  callback = function()
+    vim.cmd [[hi WinBar guibg=NONE]]
+    vim.cmd [[hi WinBarNC guibg=NONE]]
+  end
+}
+)
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
