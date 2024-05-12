@@ -525,9 +525,24 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ss', require('telescope.builtin').lsp_document_symbols, '[S]earch [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-  -- See `:help K` for why this keymap
+  -- See `:help K` for why this eymap
+
+  local function show_documentation()
+    local filetype = vim.bo.filetype
+    if vim.tbl_contains({ 'vim', 'help' }, filetype) then
+      vim.cmd('h ' .. vim.fn.expand('<cword>'))
+    elseif vim.tbl_contains({ 'man' }, filetype) then
+      vim.cmd('Man ' .. vim.fn.expand('<cword>'))
+    elseif vim.fn.expand('%:t') == 'Cargo.toml' and require('crates').popup_available() then
+      require('crates').show_popup()
+    else
+      vim.lsp.buf.hover()
+    end
+  end
+
+  nmap('n', 'K', show_documentation, { silent = true })
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('<C->', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -660,6 +675,7 @@ cmp.setup {
     { name = 'path' },
     { name = 'luasnip' },
     { name = 'buffer' },
+    { name = 'crates' },
     -- { name = 'cmdline' },
   },
 }
