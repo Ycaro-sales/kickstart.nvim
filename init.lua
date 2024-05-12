@@ -491,6 +491,7 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+vim.lsp.inlay_hint.enable()
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
@@ -540,7 +541,7 @@ local on_attach = function(_, bufnr)
     end
   end
 
-  nmap('n', 'K', show_documentation, { silent = true })
+  nmap('n', 'K', show_documentation)
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C->', vim.lsp.buf.signature_help, 'Signature Documentation')
 
@@ -569,7 +570,6 @@ end
 local servers = {
   clangd = {},
   pylsp = {},
-  rust_analyzer = {},
   tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   jedi_language_server = {},
@@ -604,7 +604,7 @@ mason_lspconfig.setup_handlers {
       settings = servers[server_name],
       filetypes = (servers[server_name] or {}).filetypes,
     }
-  end
+  end,
 }
 require 'lspconfig'.pylsp.setup {
   settings = {
@@ -617,13 +617,6 @@ require 'lspconfig'.pylsp.setup {
       }
     }
   }
-}
-
-require 'lspconfig'.rust_analyzer.setup {
-  -- Server-specific settings. See `:help lspconfig-setup`
-  settings = {
-    ['rust-analyzer'] = {},
-  },
 }
 
 -- [[ Configure nvim-cmp ]]
