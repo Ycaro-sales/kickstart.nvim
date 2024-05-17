@@ -125,6 +125,7 @@ require('lazy').setup({
       'hrsh7th/cmp-cmdline',
       'hrsh7th/nvim-cmp',
       'theprimeagen/harpoon',
+      'nvim-neotest/nvim-nio',
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',

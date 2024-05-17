@@ -1,3 +1,5 @@
+local bufnr = vim.api.nvim_get_current_buf()
+
 local nmap = function(keys, func, desc)
 	if desc then
 		desc = 'LSP: ' .. desc
@@ -31,8 +33,8 @@ local function show_documentation()
 	end
 end
 
-nmap('n', 'K', show_documentation)
-nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+nmap('K', show_documentation, 'Hover Documentation')
+-- nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
 nmap('<C->', vim.lsp.buf.signature_help, 'Signature Documentation')
 
 -- Lesser used LSP functionality
