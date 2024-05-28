@@ -81,8 +81,6 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
   'tpope/vim-dispatch',
   'folke/zen-mode.nvim',
-  'christoomey/vim-tmux-navigator', -- tmux & split window navigation
-  'raichoo/haskell-vim',
 
   'mbbill/undotree',
 
@@ -187,7 +185,7 @@ require('lazy').setup({
     'navarasu/onedark.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'everforest'
     end,
   },
 
