@@ -87,6 +87,7 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
   'nvim-tree/nvim-web-devicons',
+  'navarasu/onedark.nvim',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -185,7 +186,7 @@ require('lazy').setup({
     'navarasu/onedark.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'everforest'
+      vim.cmd.colorscheme 'onedark'
     end,
   },
 
@@ -199,7 +200,6 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
         component_separators = '|',
         section_separators = '',
       },
@@ -327,7 +327,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 
-local trouble = require("trouble.providers.telescope")
+local trouble = require("trouble.sources.telescope")
 
 require('telescope').setup {
   defaults = {
@@ -335,10 +335,10 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
-        ["<c-t>"] = trouble.open_with_trouble
+        ["<c-t>"] = trouble.open
       },
       n = {
-        ["<c-t>"] = trouble.open_with_trouble
+        ["<c-t>"] = trouble.open
       },
     },
   },
@@ -405,16 +405,8 @@ vim.keymap.set("n", "]Q", "<Cmd>clast<CR>", { desc = "Quickfix last" })
 vim.keymap.set("n", "gf", "<cmd>diffget //2<CR>zz", { desc = "Get left side diff" })
 vim.keymap.set("n", "gj", "<cmd>diffget //3<CR>zz", { desc = "Get right side diff" })
 
-vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end, { desc = "Opens trouble" })
-vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end,
-  { desc = "Trouble workspace diagnostics" })
-vim.keymap.set("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end,
-  { desc = "trouble document diagnostics" })
-vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end,
-  { desc = "Trouble quickfix list" })
-vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist") end, { desc = "Trouble loclist" })
-vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = "Trouble lsp references" })
 
+vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = "Trouble lsp references" })
 vim.keymap.set("n", "<leader>m", function() require("harpoon.mark").add_file() end, { desc = "Add harpoon mark" })
 vim.keymap.set("n", "<c-.>", function() require("harpoon.ui").toggle_quick_menu() end, { desc = "Open harpoon menu" })
 vim.keymap.set("n", "<leader>E", function() require("harpoon.ui").toggle_quick_menu() end, { desc = "Open harpoon menu" })
@@ -518,7 +510,7 @@ local on_attach = function(_, bufnr)
   -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc)
     if desc then
-      desc = 'LSP: ' .. desc
+      desc = tostring(desc)
     end
 
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
