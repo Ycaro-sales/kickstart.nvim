@@ -1,6 +1,7 @@
 return {
 	'saecki/crates.nvim',
 	tag = 'stable',
+	lazy = true,
 	config = function()
 		local autocmd = vim.api.nvim_create_autocmd
 

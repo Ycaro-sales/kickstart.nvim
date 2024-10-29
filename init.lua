@@ -77,6 +77,7 @@ require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
+  'benknoble/vim-mips',
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'tpope/vim-dispatch',
@@ -254,6 +255,11 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   { import = 'custom.plugins' },
+  { import = 'custom.plugins.tools' },
+  { import = 'custom.plugins.editing' },
+  { import = 'custom.plugins.python' },
+  { import = 'custom.plugins.rust' },
+  { import = 'custom.plugins.styling' },
 }, {})
 
 -- [[ Setting options ]]
@@ -278,10 +284,16 @@ vim.o.clipboard = 'unnamedplus'
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+vim.opt.conceallevel = 1
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 -- Enable break indent
 vim.o.breakindent = true
+
+-- set folding
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.o.foldenable = false
 
 -- Save undo history
 vim.o.undofile = true
@@ -348,6 +360,7 @@ pcall(require('telescope').load_extension, 'fzf')
 
 local nlspsettings = require("nlspsettings")
 
+---@diagnostic disable-next-line: missing-fields
 nlspsettings.setup({
   config_home = vim.fn.stdpath('config') .. '/nlsp-settings',
   local_settings_dir = ".nlsp-settings",
@@ -393,6 +406,7 @@ vim.keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current spli
 vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })                     -- open new tab
 vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })              -- close current tab
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+
 vim.keymap.set("n", "]t", "<Cmd>tabnext<CR>", { desc = "Next tab" })
 vim.keymap.set("n", "[t", "<Cmd>tabprevious<CR>", { desc = "Previous tab" })
 vim.keymap.set("n", "]T", "<Cmd>tabfirst<CR>", { desc = "First tab" })
@@ -424,7 +438,7 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'tsx', 'javascript', 'markdown', 'sql', 'typescript', 'vimdoc', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'go', 'rust', 'tsx', 'javascript', 'markdown', 'sql', 'typescript', 'vimdoc', 'vim' },
 
   modules = {},
 
@@ -448,44 +462,90 @@ require('nvim-treesitter.configs').setup {
   textobjects = {
     select = {
       enable = true,
-      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
-        ['aa'] = '@parameter.outer',
-        ['ia'] = '@parameter.inner',
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
+        ["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
+        ["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
+        ["l="] = { query = "@assignment.lhs", desc = "Select left hand side of an assignment" },
+        ["r="] = { query = "@assignment.rhs", desc = "Select right hand side of an assignment" },
+
+        -- works for javascript/typescript files (custom capture I created in after/queries/ecma/textobjects.scm)
+        ["a:"] = { query = "@property.outer", desc = "Select outer part of an object property" },
+        ["i:"] = { query = "@property.inner", desc = "Select inner part of an object property" },
+        ["l:"] = { query = "@property.lhs", desc = "Select left part of an object property" },
+        ["r:"] = { query = "@property.rhs", desc = "Select right part of an object property" },
+
+        ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
+        ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
+
+        ["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
+        ["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
+
+        ["al"] = { query = "@loop.outer", desc = "Select outer part of a loop" },
+        ["il"] = { query = "@loop.inner", desc = "Select inner part of a loop" },
+
+        ["af"] = { query = "@call.outer", desc = "Select outer part of a function call" },
+        ["if"] = { query = "@call.inner", desc = "Select inner part of a function call" },
+
+        ["am"] = { query = "@function.outer", desc = "Select outer part of a method/function definition" },
+        ["im"] = { query = "@function.inner", desc = "Select inner part of a method/function definition" },
+
+        ["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
+        ["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>na"] = "@parameter.inner", -- swap parameters/argument with next
+        ["<leader>n:"] = "@property.outer",  -- swap object property with next
+        ["<leader>nm"] = "@function.outer",  -- swap function with next
+      },
+      swap_previous = {
+        ["<leader>pa"] = "@parameter.inner", -- swap parameters/argument with prev
+        ["<leader>p:"] = "@property.outer",  -- swap object property with prev
+        ["<leader>pm"] = "@function.outer",  -- swap function with previous
       },
     },
     move = {
       enable = true,
       set_jumps = true, -- whether to set jumps in the jumplist
       goto_next_start = {
-        [']m'] = '@function.outer',
-        [']]'] = '@class.outer',
+        ["]f"] = { query = "@call.outer", desc = "Next function call start" },
+        ["]m"] = { query = "@function.outer", desc = "Next method/function def start" },
+        ["]c"] = { query = "@class.outer", desc = "Next class start" },
+        ["]i"] = { query = "@conditional.outer", desc = "Next conditional start" },
+        ["]l"] = { query = "@loop.outer", desc = "Next loop start" },
+
+        -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+        -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+        ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+        ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
       },
       goto_next_end = {
-        [']M'] = '@function.outer',
-        [']['] = '@class.outer',
+        ["]F"] = { query = "@call.outer", desc = "Next function call end" },
+        ["]M"] = { query = "@function.outer", desc = "Next method/function def end" },
+        ["]C"] = { query = "@class.outer", desc = "Next class end" },
+        ["]I"] = { query = "@conditional.outer", desc = "Next conditional end" },
+        ["]L"] = { query = "@loop.outer", desc = "Next loop end" },
       },
       goto_previous_start = {
-        ['[m'] = '@function.outer',
-        ['[['] = '@class.outer',
+        ["[f"] = { query = "@call.outer", desc = "Prev function call start" },
+        ["[m"] = { query = "@function.outer", desc = "Prev method/function def start" },
+        ["[c"] = { query = "@class.outer", desc = "Prev class start" },
+        ["[i"] = { query = "@conditional.outer", desc = "Prev conditional start" },
+        ["[l"] = { query = "@loop.outer", desc = "Prev loop start" },
       },
       goto_previous_end = {
-        ['[M'] = '@function.outer',
-        ['[]'] = '@class.outer',
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ['<leader>a'] = '@parameter.inner',
-      },
-      swap_previous = {
-        ['<leader>A'] = '@parameter.inner',
+        ["[F"] = { query = "@call.outer", desc = "Prev function call end" },
+        ["[M"] = { query = "@function.outer", desc = "Prev method/function def end" },
+        ["[C"] = { query = "@class.outer", desc = "Prev class end" },
+        ["[I"] = { query = "@conditional.outer", desc = "Prev conditional end" },
+        ["[L"] = { query = "@loop.outer", desc = "Prev loop end" },
       },
     },
   },
@@ -493,10 +553,6 @@ require('nvim-treesitter.configs').setup {
 
 vim.lsp.inlay_hint.enable()
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 
 -- [[ Configure LSP ]]
@@ -516,6 +572,10 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
+  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
@@ -541,8 +601,7 @@ local on_attach = function(_, bufnr)
     end
   end
 
-  nmap('n', 'K', show_documentation)
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  nmap('K', show_documentation, 'Hover Documentation')
   nmap('<C->', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
@@ -568,8 +627,8 @@ end
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  clangd = {},
   pylsp = {},
+  gopls = {},
   tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   jedi_language_server = {},
@@ -591,6 +650,8 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 require 'lspconfig'.jedi_language_server.setup {}
+
+require 'lspconfig'.clangd.setup({})
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
