@@ -635,7 +635,6 @@ end
 local servers = {
   pylsp = {},
   gopls = {},
-  tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   jedi_language_server = {},
   lua_ls = {
