@@ -42,13 +42,13 @@ return {
 		})
 
 		vim.keymap.set("n", "<leader>sl", function()
-			MiniSessions.read(get_session_name(), { verbose = true })
+			MiniSessions.read(get_session_name())
 		end)
 
 		vim.api.nvim_create_autocmd("VimLeavePre", {
 			callback = function()
-				MiniSessions.Write(get_session_name(), { verbose = true })
-				MiniSessions.Write("Session.vim", { verbose = true })
+				MiniSessions.Write(get_session_name())
+				MiniSessions.Write("Session.vim")
 			end,
 		})
 	end
