@@ -636,7 +636,6 @@ local servers = {
   pylsp = {},
   gopls = {},
   html = { filetypes = { 'html', 'twig', 'hbs' } },
-  jedi_language_server = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -654,7 +653,6 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
-require 'lspconfig'.jedi_language_server.setup {}
 
 require 'lspconfig'.clangd.setup({})
 
