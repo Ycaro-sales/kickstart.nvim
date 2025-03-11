@@ -76,10 +76,10 @@ vim.o.foldenable = false
 
 -- TODO: olhar se faz diferenca
 -- Keep signcolumn on by default
--- vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = 'yes'
 
 -- TODO: olhar se faz diferenca
--- vim.o.termguicolors = true
+vim.o.termguicolors = true
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -90,6 +90,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
@@ -685,6 +686,10 @@ require('lazy').setup({
       -- See the full "keymap" documentation for information on defining your own keymap.
       keymap = { preset = 'super-tab' },
 
+      fuzzy = { implementation = 'prefer_rust_with_warning' },
+
+      signature = { enabled = true },
+
       appearance = {
         -- Sets the fallback highlight groups to nvim-cmp's highlight groups
         -- Useful for when your theme doesn't support blink.cmp
@@ -695,10 +700,50 @@ require('lazy').setup({
         nerd_font_variant = 'mono',
       },
 
+      completion = {
+        trigger = {
+          show_on_insert_on_trigger_character = true,
+        },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 500,
+        },
+        list = {
+          selection = { preselect = true, auto_insert = false },
+        },
+        ghost_text = {
+          enabled = true,
+        },
+        menu = {
+          auto_show = true,
+          draw = {
+            treesitter = { 'lsp' },
+            columns = {
+              {
+                'kind_icon',
+                gap = 1,
+                'label',
+              },
+              {
+                'label_description',
+              },
+            },
+          },
+        },
+      },
+
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lsp', 'snippets', 'path', 'buffer' },
+        providers = {
+          snippets = {
+            should_show_items = function(ctx)
+              return ctx.trigger.initial_kind ~= 'trigger_character'
+            end,
+            score_offset = 4,
+          },
+        },
       },
     },
     opts_extend = { 'sources.default' },
