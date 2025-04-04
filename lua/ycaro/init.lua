@@ -1,6 +1,5 @@
 require 'ycaro.set'
 require 'ycaro.remap'
-require 'ycaro.lsp'
 require 'ycaro.lazy_init'
 
 vim.g.python3_host_prog = vim.fn.expand '~/.virtualenvs/neovim/bin/python3'
