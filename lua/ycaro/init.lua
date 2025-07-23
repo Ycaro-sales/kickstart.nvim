@@ -24,14 +24,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
   callback = function(e)
     local opts = { buffer = e.buf }
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+    local builtin = require 'telescope.builtin'
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = '[LSP] Go to definition' })
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = '[LSP] Go to declaration' })
+    vim.keymap.set('n', 'grr', builtin.lsp_references, { desc = '[LSP] Go to References' })
+
     vim.keymap.set('n', 'K', function()
       vim.lsp.buf.hover()
     end, opts)
-    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = '[LSP] Open floating diagnostic message' })
 
     local client = vim.lsp.get_client_by_id(e.data.client_id)
-    if client and client:supports_method( vim.lsp.protocol.Methods.textDocument_inlayHint, e.buf) then
+    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, e.buf) then
       vim.keymap.set('n', '<leader>th', function()
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = e.buf })
       end)

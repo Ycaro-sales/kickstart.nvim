@@ -22,7 +22,7 @@ vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
 vim.keymap.set('n', '<leader>Y', [["+Y]])
 
 vim.keymap.set('n', '<leader>c', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
+-- vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
 
 vim.keymap.set({ 'n', 'v' }, '<leader>d', '"_d')
 
@@ -31,6 +31,10 @@ vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
 vim.keymap.set('n', '<leader>pf', vim.lsp.buf.format)
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
+vim.keymap.set('n', ']t', '<cmd>tabnext<CR>', { desc = 'Go to next tab' })
+vim.keymap.set('n', '[t', '<cmd>tabprevious<CR>', { desc = 'Go to previous tab' })
+vim.keymap.set('n', '<leader>to', '<cmd>tabnew<CR>', { desc = 'Open new tab' })
 vim.keymap.set('n', '<leader>to', '<cmd>tabnew<CR>', { desc = 'Open new tab' })
 vim.keymap.set('n', '<leader>tx', '<cmd>tabclose<CR>', { desc = 'Close current tab' })
 vim.keymap.set('n', '<leader>tf', '<cmd>tabnew %<CR>', { desc = 'Open current buffer in new tab' })

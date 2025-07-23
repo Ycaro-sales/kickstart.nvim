@@ -24,6 +24,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
+    pcall(require('telescope').load_extension, 'flutter')
 
     local builtin = require 'telescope.builtin'
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
@@ -31,7 +32,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch [G]rep' })
 
     vim.keymap.set('n', '<c-p>', builtin.find_files, { desc = '[S]earch [F]iles' })
-    vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = '[S]earch [F]iles' })
+    vim.keymap.set('n', '<leader>f', builtin.git_files, { desc = '[S]earch [F]iles' })
     vim.keymap.set('n', '<leader>pws', function()
       local word = vim.fn.expand '<cword>'
       builtin.grep_string { search = word }

@@ -1,3 +1,5 @@
+local trigger_text = ';'
+
 return {
   {
     'neovim/nvim-lspconfig',
@@ -18,49 +20,43 @@ return {
           'lua_ls',
           'rust_analyzer',
           'gopls',
+          'arduino_language_server',
           'clangd',
           'basedpyright',
         },
-        handlers = {
-          function(server_name) -- default handler (optional)
-            local capabilities = require('blink-cmp').get_lsp_capabilities()
-            require('lspconfig')[server_name].setup {
-              capabilities = capabilities,
-            }
-          end,
-
-          zls = function()
-            local lspconfig = require 'lspconfig'
-            lspconfig.zls.setup {
-              root_dir = lspconfig.util.root_pattern('.git', 'build.zig', 'zls.json'),
-              settings = {
-                zls = {
-                  enable_inlay_hints = true,
-                  enable_snippets = true,
-                  warn_style = true,
-                },
-              },
-            }
-            vim.g.zig_fmt_parse_errors = 0
-            vim.g.zig_fmt_autosave = 0
-          end,
-          ['lua_ls'] = function()
-            local capabilities = require('blink-cmp').get_lsp_capabilities()
-            local lspconfig = require 'lspconfig'
-            lspconfig.lua_ls.setup {
-              capabilities = capabilities,
-              settings = {
-                Lua = {
-                  runtime = { version = 'Lua 5.1' },
-                  diagnostics = {
-                    globals = { 'bit', 'vim', 'it', 'describe', 'before_each', 'after_each' },
-                  },
-                },
-              },
-            }
-          end,
-        },
       }
+
+      vim.lsp.config('basedpyright', {
+        settings = {
+          basedpyright = {
+            analysis = {
+              -- typeCheckingMode = 'recommended',
+              -- typeCheckingMode = 'basic',
+              typeCheckingMode = 'standard',
+              diagnosticServerOverrides = {
+                reportUnusedExpression = 'none',
+              },
+
+              -- typeCheckingMode = 'strict',
+              inlayHints = {
+                callArgumentNames = true,
+                genericTypes = true,
+              },
+            },
+          },
+        },
+      })
+
+      vim.lsp.config('lua_ls', {
+        settings = {
+          Lua = {
+            runtime = { version = 'Lua 5.1' },
+            diagnostics = {
+              globals = { 'bit', 'vim', 'it', 'describe', 'before_each', 'after_each' },
+            },
+          },
+        },
+      })
 
       vim.diagnostic.config {
         -- update_in_insert = true,
@@ -72,11 +68,9 @@ return {
           header = '',
           prefix = '',
         },
-  -- Alternatively, customize specific options
-  -- virtual_lines = {
-  --  -- Only show virtual line diagnostics for the current cursor line
-  --  current_line = true,
-  -- },
+        virtual_text = {
+          current_line = false,
+        },
       }
     end,
   },
@@ -96,10 +90,9 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      -- 'default' for mappings similar to built-in completion
-      -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
-      -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
-      keymap = { preset = 'super-tab' },
+      keymap = {
+        preset = 'default',
+      },
       fuzzy = { implementation = 'prefer_rust_with_warning' },
       signature = { enabled = true },
       appearance = {
@@ -108,24 +101,63 @@ return {
       },
       completion = {
         trigger = { show_on_insert_on_trigger_character = true },
-        documentation = { auto_show = true, auto_show_delay_ms = 500 },
+        documentation = { auto_show = true },
         list = { selection = { preselect = true, auto_insert = false } },
-        ghost_text = { enabled = true },
+        ghost_text = { enabled = false },
         menu = {
           auto_show = true,
           draw = {
             treesitter = { 'lsp' },
             columns = {
-                { 'kind_icon', gap = 1, 'label' },
-                { 'label_description' },
+              { 'kind_icon', gap = 1, 'label' },
+              { 'kind', 'label_description' },
             },
           },
         },
       },
-      snippets = {preset = 'luasnip'},
+      snippets = { preset = 'luasnip' },
       sources = {
-        default = { 'lsp', 'path', 'buffer' },
-        providers = {},
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        providers = {
+          lsp = {
+            score_offset = 90,
+          },
+          snippets = {
+            name = 'snippets',
+            enabled = true,
+            max_items = 3,
+            min_keyword_length = 2,
+            module = 'blink.cmp.sources.snippets',
+            score_offset = 100,
+            -- should_show_items = function()
+            --   local col = vim.api.nvim_win_get_cursor(0)[2]
+            --   local before_cursor = vim.api.nvim_get_current_line():sub(1, col)
+            --   return before_cursor:match(trigger_text .. '%w*$') ~= nil
+            -- end,
+            -- transform_items = function(_, items)
+            --   local line = vim.api.nvim_get_current_line()
+            --   local col = vim.api.nvim_win_get_cursor(0)[2]
+            --   local before_cursor = line:sub(1, col)
+            --   local start_pos, end_pos = before_cursor:find(trigger_text .. '[^' .. trigger_text .. ']*$')
+            --   if start_pos then
+            --     for _, item in ipairs(items) do
+            --       if not item.trigger_text_modified then
+            --         ---@diagnostic disable-next-line: inject-field
+            --         item.trigger_text_modified = true
+            --         item.textEdit = {
+            --           newText = item.insertText or item.label,
+            --           range = {
+            --             start = { line = vim.fn.line '.' - 1, character = start_pos - 1 },
+            --             ['end'] = { line = vim.fn.line '.' - 1, character = end_pos },
+            --           },
+            --         }
+            --       end
+            --     end
+            --   end
+            --   return items
+            -- end,
+          },
+        },
       },
     },
     opts_extend = { 'sources.default' },
@@ -149,7 +181,7 @@ return {
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
-        mode = '',
+        mode = 'n',
         desc = '[F]ormat buffer',
       },
     },

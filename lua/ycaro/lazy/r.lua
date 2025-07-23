@@ -2,9 +2,9 @@ return {
   'R-nvim/R.nvim',
   -- Only required if you also set defaults.lazy = true
   lazy = false,
-  cond = function()
-    return (vim.bo.filetype == 'r')
-  end,
+  -- cond = function()
+  --   return (vim.bo.filetype == 'r')
+  -- end,
   -- R.nvim is still young and we may make some breaking changes from time
   -- to time (but also bug fixes all the time). If configuration stability
   -- is a high priority for you, pin to the latest minor version, but unpin
