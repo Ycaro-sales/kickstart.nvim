@@ -18,7 +18,7 @@ return {
         enabled = true,
       },
       checkbox = {
-        enabled = false,
+        enabled = true,
       },
       win_options = {
         conceallevel = {
@@ -47,7 +47,7 @@ return {
         -- Turn on / off heading icon & background rendering
         enabled = true,
         -- Turn on / off any sign column related rendering
-        sign = false,
+        sign = true,
         -- Replaces '#+' of 'atx_h._marker'
         -- The number of '#' in the heading determines the 'level'
         -- The 'level' is used to index into the array using a cycle
