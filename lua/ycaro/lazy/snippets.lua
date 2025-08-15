@@ -14,14 +14,14 @@ return {
     ls.filetype_extend('dart', { 'flutter' })
     ls.filetype_extend('javascript', { 'jsdoc' })
 
-    blink = require 'blink-cmp'
+    local blink = require 'blink-cmp'
 
     vim.keymap.set({ 'i', 's' }, '<C-E>', function()
       blink.hide()
       if ls.choice_active() then
         ls.change_choice(1)
       else
-        ls.expand()
+        ls.expand {}
       end
     end, { silent = true })
 

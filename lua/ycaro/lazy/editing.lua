@@ -20,14 +20,6 @@ return {
     config = true,
     opts = {},
   },
-  --
-  -- {
-  --
-  --   'altermo/ultimate-autopair.nvim',
-  --   event = { 'InsertEnter', 'CmdlineEnter' },
-  --   branch = 'v0.6', --recommended as each new version will have breaking changes
-  --   opts = {},
-  -- },
   {
     'RRethy/nvim-treesitter-endwise',
   },
@@ -44,43 +36,8 @@ return {
   {
     'kawre/neotab.nvim',
     event = 'InsertEnter',
-    opts = {
-      -- configuration goes here
-    },
+    opts = {},
   },
-  -- {
-  --   'abecodes/tabout.nvim',
-  --   lazy = false,
-  --   config = function()
-  --     require('tabout').setup {
-  --       tabkey = '<Tab>',
-  --       backwards_tabkey = '<S-Tab>',
-  --       act_as_tab = true,
-  --       act_as_shift_tab = true,
-  --       default_tab = '<C-t>',
-  --       default_shift_tab = '<C-d>',
-  --       enable_backwards = true,
-  --       completion = false,
-  --       tabouts = {
-  --         { open = "'", close = "'" },
-  --         { open = '"', close = '"' },
-  --         { open = '`', close = '`' },
-  --         { open = '(', close = ')' },
-  --         { open = '[', close = ']' },
-  --         { open = '{', close = '}' },
-  --       },
-  --       ignore_beginning = true,
-  --       exclude = {},
-  --     }
-  --   end,
-  --   dependencies = {
-  --     'nvim-treesitter/nvim-treesitter',
-  --     'L3MON4D3/LuaSnip',
-  --   },
-  --   opt = true,
-  --   event = 'InsertCharPre',
-  --   priority = 1000,
-  -- },
   {
     'stevearc/aerial.nvim',
     config = function()
