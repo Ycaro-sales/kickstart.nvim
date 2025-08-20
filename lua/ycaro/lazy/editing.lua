@@ -1,10 +1,5 @@
 return {
   {
-    'NStefan002/screenkey.nvim', -- show keys pressed (:Screenkey)
-    cmd = 'Screenkey',
-    config = true,
-  },
-  {
     'kylechui/nvim-surround',
     version = '^3.0.0', -- Use for stability; omit to use `main` branch for the latest features
     event = 'VeryLazy',

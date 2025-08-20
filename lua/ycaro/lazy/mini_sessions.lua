@@ -15,9 +15,6 @@ return {
         return name .. '.vim'
       end
     end
-    local statusline = require 'mini.statusline'
-    -- set use_icons to true if you have a Nerd Font
-    statusline.setup { use_icons = vim.g.have_nerd_font }
     require('mini.sessions').setup {
       -- Whether to read default session if Neovim opened without file arguments
       autoread = false,

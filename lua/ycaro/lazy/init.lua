@@ -2,6 +2,7 @@ return {
   'tpope/vim-rhubarb',
   'tpope/vim-sleuth',
   'tpope/vim-dispatch',
+  'tpope/vim-rsi',
   {
     'ThePrimeagen/harpoon',
     branch = 'harpoon2',
@@ -44,6 +45,39 @@ return {
       vim.keymap.set('n', '<leader><C-;>', function()
         harpoon:list():replace_at(4)
       end)
+    end,
+  },
+  {
+    'mbbill/undotree',
+
+    config = function()
+      vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
+    end,
+  },
+  {
+    'laytan/cloak.nvim',
+    config = function()
+      require('cloak').setup {
+        enabled = true,
+        cloak_character = '*',
+        -- The applied highlight group (colors) on the cloaking, see `:h highlight`.
+        highlight_group = 'Comment',
+        patterns = {
+          {
+            -- Match any file starting with ".env".
+            -- This can be a table to match multiple file patterns.
+            file_pattern = {
+              '.env*',
+              'wrangler.toml',
+              '.dev.vars',
+            },
+            -- Match an equals sign and any character after it.
+            -- This can also be a table of patterns to cloak,
+            -- example: cloak_pattern = { ":.+", "-.+" } for yaml files.
+            cloak_pattern = '=.+',
+          },
+        },
+      }
     end,
   },
   {
