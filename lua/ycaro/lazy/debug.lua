@@ -142,9 +142,7 @@ return {
   },
   {
     'Vigemus/iron.nvim',
-    cond = function()
-      return vim.bo.filetype == 'python'
-    end,
+    ft = { 'python' },
     config = function()
       local iron = require 'iron.core'
       local view = require 'iron.view'

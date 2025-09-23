@@ -1,6 +1,7 @@
 return {
   'folke/trouble.nvim',
-  lazy = false,
+  opts = {}, -- for default options, refer to the configuration section for custom setup.
+  cmd = 'Trouble',
   keys = {
     {
       '<leader>xx',
@@ -14,12 +15,12 @@ return {
     },
     {
       '<leader>xs',
-      '<cmd>Trouble symbols toggle focus=false win.position=right<cr>',
+      '<cmd>Trouble symbols toggle focus=false<cr>',
       desc = 'Symbols (Trouble)',
     },
     {
       '<leader>xl',
-      '<cmd>Trouble lsp toggle focus=false win.position=bottom<cr>',
+      '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
       desc = 'LSP Definitions / references / ... (Trouble)',
     },
     {
@@ -28,18 +29,14 @@ return {
       desc = 'Location List (Trouble)',
     },
     {
-      '<leader>xQ',
+      '<leader>xq',
       '<cmd>Trouble qflist toggle<cr>',
       desc = 'Quickfix List (Trouble)',
     },
+    {
+      '<leader>xt',
+      '<cmd>TodoTrouble<cr>',
+      desc = 'Quickfix List (Trouble)',
+    },
   },
-  opts = {}, -- for default options, refer to the configuration section for custom setup.
 }
-
--- vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end, { desc = "Opens trouble" })
--- vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end,
---   { desc = "Trouble workspace diagnostics" })
---   { desc = "trouble document diagnostics" })
--- vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end,
---   { desc = "Trouble quickfix list" })
--- vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist") end, { desc = "Trouble loclist" })
