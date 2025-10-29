@@ -39,6 +39,30 @@ vim.keymap.set('n', '<leader>to', '<cmd>tabnew<CR>', { desc = 'Open new tab' })
 vim.keymap.set('n', '<leader>tx', '<cmd>tabclose<CR>', { desc = 'Close current tab' })
 vim.keymap.set('n', '<leader>tf', '<cmd>tabnew %<CR>', { desc = 'Open current buffer in new tab' })
 
+-- Open the package manager.
+vim.keymap.set('n', '<leader>L', '<cmd>Lazy<cr>', { desc = 'Lazy' })
+
+-- Poweful <esc>.
+vim.keymap.set({ 'i', 's', 'n' }, '<esc>', function()
+  if require('luasnip').expand_or_jumpable() then
+    require('luasnip').unlink_current()
+  end
+  vim.cmd 'noh'
+  return '<esc>'
+end, { desc = 'Escape, clear hlsearch, and stop snippet session', expr = true })
+
+-- Make U opposite to u.
+vim.keymap.set('n', 'U', '<C-r>', { desc = 'Redo' })
+
+-- Quickly go to the end of the line while in insert mode.
+vim.keymap.set({ 'i', 'c' }, '<C-l>', '<C-o>A', { desc = 'Go to the end of the line' })
+
+-- Switch between windows.
+vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to the left window', remap = true })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to the bottom window', remap = true })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to the top window', remap = true })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to the right window', remap = true })
+
 vim.keymap.set('n', '<leader><leader>', function()
   vim.cmd 'so'
 end)
