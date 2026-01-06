@@ -25,6 +25,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(e)
     local opts = { buffer = e.buf }
     local builtin = require 'telescope.builtin'
+
+    local bufnr = vim.fn.bufnr()
+
+    for _, client in ipairs(vim.lsp.get_clients({ bufnr = vim.fn.bufnr() })) do
+      require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
+    end
+
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = '[LSP] Go to definition' })
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = '[LSP] Go to declaration' })
     vim.keymap.set('n', 'grr', builtin.lsp_references, { desc = '[LSP] Go to References' })

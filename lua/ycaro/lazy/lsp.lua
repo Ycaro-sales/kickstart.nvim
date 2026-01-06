@@ -10,6 +10,7 @@ return {
       'L3MON4D3/LuaSnip',
       'j-hui/fidget.nvim',
       'saghen/blink.cmp',
+      'artemave/workspace-diagnostics.nvim'
     },
 
     config = function()
@@ -18,15 +19,11 @@ return {
       require('mason-lspconfig').setup {
         ensure_installed = {
           'lua_ls',
-          'rust_analyzer',
-          'gopls',
-          'arduino_language_server',
-          'clangd',
           'basedpyright',
         },
       }
-
       vim.lsp.config('basedpyright', {
+        root_markers = { '.git' },
         settings = {
           basedpyright = {
             analysis = {
@@ -59,7 +56,7 @@ return {
       })
 
       vim.diagnostic.config {
-        -- update_in_insert = true,
+        update_in_insert = true,
         float = {
           focusable = false,
           style = 'minimal',
@@ -68,9 +65,7 @@ return {
           header = '',
           prefix = '',
         },
-        virtual_text = {
-          current_line = false,
-        },
+        virtual_text = true,
       }
     end,
   },
@@ -107,8 +102,8 @@ return {
           draw = {
             treesitter = { 'lsp' },
             columns = {
-              { 'kind_icon', gap = 1, 'label' },
-              { 'kind', 'label_description' },
+              { 'kind_icon', gap = 1,            'label' },
+              { 'kind',      'label_description' },
             },
           },
         },

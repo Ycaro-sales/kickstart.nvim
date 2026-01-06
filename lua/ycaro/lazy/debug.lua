@@ -119,7 +119,7 @@ return {
       vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
       local breakpoint_icons = vim.g.have_nerd_font
           and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-        or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
+          or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
       for type, icon in pairs(breakpoint_icons) do
         local tp = 'Dap' .. type
         local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
@@ -143,10 +143,12 @@ return {
   {
     'Vigemus/iron.nvim',
     ft = { 'python' },
+    cond = function()
+      return vim.bo.filetype == "python"
+    end,
     config = function()
       local iron = require 'iron.core'
       local view = require 'iron.view'
-      local common = require 'iron.fts.common'
 
       iron.setup {
         config = {
@@ -155,7 +157,7 @@ return {
             sh = {
               command = { 'zsh' },
             },
-            python = require('iron.fts.python').ipython,
+            python = function() return require('iron.fts.python').ipython end,
           },
           repl_filetype = function(bufnr, ft)
             return ft
