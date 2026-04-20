@@ -18,26 +18,24 @@ return {
       require('mason-lspconfig').setup {
         ensure_installed = {
           'lua_ls',
-          'rust_analyzer',
           'gopls',
           'arduino_language_server',
           'clangd',
-          'basedpyright',
+          'ty',
         },
       }
 
-      vim.lsp.config('basedpyright', {
+      vim.lsp.enable 'rust-analyzer'
+
+      vim.lsp.enable 'ty'
+      vim.lsp.config('ty', {
         settings = {
-          basedpyright = {
+          ty = {
             analysis = {
-              -- typeCheckingMode = 'recommended',
-              -- typeCheckingMode = 'basic',
               typeCheckingMode = 'standard',
               diagnosticServerOverrides = {
                 reportUnusedExpression = 'none',
               },
-
-              -- typeCheckingMode = 'strict',
               inlayHints = {
                 callArgumentNames = true,
                 genericTypes = true,
@@ -46,6 +44,26 @@ return {
           },
         },
       })
+      -- vim.lsp.config('basedpyright', {
+      --   settings = {
+      --     basedpyright = {
+      --       analysis = {
+      --         -- typeCheckingMode = 'recommended',
+      --         -- typeCheckingMode = 'basic',
+      --         typeCheckingMode = 'standard',
+      --         diagnosticServerOverrides = {
+      --           reportUnusedExpression = 'none',
+      --         },
+      --
+      --         -- typeCheckingMode = 'strict',
+      --         inlayHints = {
+      --           callArgumentNames = true,
+      --           genericTypes = true,
+      --         },
+      --       },
+      --     },
+      --   },
+      -- })
 
       vim.lsp.config('lua_ls', {
         settings = {
