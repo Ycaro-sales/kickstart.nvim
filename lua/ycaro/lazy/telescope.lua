@@ -15,6 +15,11 @@ return { -- Fuzzy Finder (files, lsp, etc)
   },
   config = function()
     require('telescope').setup {
+      defaults = {
+        preview = {
+          treesitter = false
+        }
+      },
       extensions = {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),

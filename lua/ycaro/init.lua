@@ -11,6 +11,14 @@ vim.g.python3_host_prog = vim.fn.expand '~/.virtualenvs/neovim/bin/python3'
 --     vim.cmd [[hi WinBarNC guibg=NONE]]
 --   end,
 -- })
+--
+vim.cmd("packadd nvim.undotree")
+
+vim.keymap.set("n", "<leader>u", function()
+  require("undotree").open({
+    command = math.floor(vim.api.nvim_win_get_width(0) / 4) .. "vnew",
+  })
+end, { desc = "[U]ndotree toggle" })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',

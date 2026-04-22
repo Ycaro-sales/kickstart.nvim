@@ -4,80 +4,10 @@ return {
   'tpope/vim-dispatch',
   'tpope/vim-rsi',
   {
-    'ThePrimeagen/harpoon',
-    branch = 'harpoon2',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    config = function()
-      local harpoon = require 'harpoon'
-
-      harpoon:setup()
-
-      vim.keymap.set('n', '<leader>A', function()
-        harpoon:list():prepend()
-      end)
-      vim.keymap.set('n', '<leader>a', function()
-        harpoon:list():add()
-      end)
-      vim.keymap.set('n', '<C-e>', function()
-        harpoon.ui:toggle_quick_menu(harpoon:list())
-      end)
-      vim.keymap.set('n', '<C-j>', function()
-        harpoon:list():select(1)
-      end)
-      vim.keymap.set('n', '<C-k>', function()
-        harpoon:list():select(2)
-      end)
-      vim.keymap.set('n', '<C-l>', function()
-        harpoon:list():select(3)
-      end)
-      vim.keymap.set('n', '<C-;>', function()
-        harpoon:list():select(4)
-      end)
-      vim.keymap.set('n', '<leader><C-j>', function()
-        harpoon:list():replace_at(1)
-      end)
-      vim.keymap.set('n', '<leader><C-k>', function()
-        harpoon:list():replace_at(2)
-      end)
-      vim.keymap.set('n', '<leader><C-l>', function()
-        harpoon:list():replace_at(3)
-      end)
-      vim.keymap.set('n', '<leader><C-;>', function()
-        harpoon:list():replace_at(4)
-      end)
-    end,
-  },
-  {
     'mbbill/undotree',
 
     config = function()
       vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
-    end,
-  },
-  {
-    'laytan/cloak.nvim',
-    config = function()
-      require('cloak').setup {
-        enabled = true,
-        cloak_character = '*',
-        -- The applied highlight group (colors) on the cloaking, see `:h highlight`.
-        highlight_group = 'Comment',
-        patterns = {
-          {
-            -- Match any file starting with ".env".
-            -- This can be a table to match multiple file patterns.
-            file_pattern = {
-              '.env*',
-              'wrangler.toml',
-              '.dev.vars',
-            },
-            -- Match an equals sign and any character after it.
-            -- This can also be a table of patterns to cloak,
-            -- example: cloak_pattern = { ":.+", "-.+" } for yaml files.
-            cloak_pattern = '=.+',
-          },
-        },
-      }
     end,
   },
   {
@@ -119,7 +49,7 @@ return {
         },
       },
       spec = {
-        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+        { '<leader>c', group = '[C]ode',     mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
@@ -129,7 +59,7 @@ return {
       },
     },
   },
-  { 'williamboman/mason.nvim', opts = {} },
+  { 'williamboman/mason.nvim',  opts = {} },
   { -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
